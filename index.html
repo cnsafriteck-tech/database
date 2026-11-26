@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reseller Database.South Africa</title>
+
+<style>
+:root{
+  --green:#123f2b;
+  --green2:#1d6544;
+  --gold:#c99b22;
+  --background:#f4f6f3;
+  --white:#fff;
+  --black:#171717;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:var(--background);color:var(--black);
+}
+header{
+  background:white;border-bottom:3px solid var(--gold);
+  padding:12px 17px;display:flex;align-items:center;gap:12px;
+}
+header img{width:110px;height:110px;object-fit:contain}
+header h2{color:var(--green);font-size:19px;margin:0}
+.container{max-width:850px;margin:22px auto;padding:14px}
+.panel{
+  background:white;padding:20px;border-radius:12px;
+  box-shadow:0 3px 15px #00000010;margin-bottom:17px;
+}
+h2,h3{color:var(--green)}
+input,button{width:100%;padding:13px;margin:7px 0;border-radius:7px;font-size:15px}
+input{border:1px solid #ccc}
+button{background:var(--green);color:white;border:0;cursor:pointer;font-weight:bold}
+button:hover{background:var(--green2)}
+.gold-button{background:var(--gold);color:#171717}
+.secondary{background:#555}
+.hidden{display:none!important}
+.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.menu button{min-height:75px}
+.stat{
+  background:#f4f6f3;padding:14px;border-radius:9px;
+  margin:9px 0;border-left:4px solid var(--gold);
+}
+.stat strong{display:block;color:var(--green);font-size:22px;margin-top:7px}
+.status-active{color:green;font-weight:bold}
+.status-inactive{color:#c62828;font-weight:bold}
+.progress{height:13px;background:#ddd;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;background:var(--green2);width:0}
+.circle{
+  width:155px;height:155px;border-radius:50%;border:10px solid var(--gold);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  margin:18px auto;color:var(--green);
+}
+.circle strong{font-size:29px}
+.info-row{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
+.info-row span{display:block;color:#777;font-size:13px;margin-bottom:4px}
+.info-row strong{color:#222}
+#loading{
+  position:fixed;inset:0;z-index:1000;background:white;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+}
+.spinner{
+  width:55px;height:55px;border:6px solid #e5e5e5;
+  border-top:6px solid var(--green);border-right:6px solid var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading p{color:var(--green);font-weight:bold}
+.message{background:#fff6dc;padding:13px;border-radius:8px;line-height:1.5}
+footer{text-align:center;color:#777;padding:20px;font-size:12px}
+@media(max-width:480px){
+  .menu{grid-template-columns:1fr}
+  .container{padding:10px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <p id="loadingText">Connecting...</p>
+</div>
+
+<header>
+  <img src="1795185581412.png" alt="Company Logo">
+  <h2>Reseller Database.South Africa</h2>
+</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<section id="loginPage" class="panel hidden">
+  <h2>Reseller Login</h2>
+  <p>Please enter your reseller number and PIN.</p>
+  <input id="loginNumber" placeholder="Reseller Number">
+  <input id="loginPin" type="password" inputmode="numeric" maxlength="4" placeholder="4-digit PIN">
+  <button onclick="login()">LOGIN</button>
+  <button class="gold-button" onclick="forgotDetails()">Forgot Reseller Number or PIN?</button>
+  <p id="loginMessage" style="color:#c62828;font-weight:bold"></p>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboardPage" class="hidden">
+  <div class="panel">
+    <h2>Welcome, <span id="welcomeName"></span></h2>
+    <p>Reseller Number: <strong id="welcomeNumber"></strong></p>
+    <p id="resellerTypeLabel">Your reseller account dashboard.</p>
+  </div>
+  <div class="panel">
+    <h3>My Account Menu</h3>
+    <div class="menu">
+      <button onclick="openPage('clientsPage')">Total Number of Clients</button>
+      <button onclick="openPage('creditsPage')">Credit Performance</button>
+      <button onclick="openPage('balancePage')">Check My Balance</button>
+      <button onclick="openPage('statusPage')">My Status</button>
+      <button onclick="openPage('informationPage')">My Information</button>
+    </div>
+    <button class="secondary" onclick="logout()">LOG OUT</button>
+  </div>
+</section>
+
+<!-- TOTAL CLIENTS -->
+<section id="clientsPage" class="hidden">
+  <div class="panel">
+    <h2>Total Number of Clients</h2>
+    <div class="stat">Total clients recruited<strong id="clientCount">0 Clients</strong></div>
+    <p>This section displays the total number of clients recruited under your reseller account.</p>
+    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+  </div>
+</section>
+
+<!-- CREDIT PERFORMANCE -->
+<section id="creditsPage" class="hidden">
+  <div class="panel">
+    <h2>Credit Performance</h2>
+    <p>Your recruitment credit performance is displayed below.</p>
+    <div class="circle"><strong id="creditPoints">11</strong><span>Out of 450</span></div>
+    <div class="progress"><div id="creditProgress" class="progress-fill"></div></div>
+    <div class="stat">Clients Recruited<strong id="creditClients">0</strong></div>
+    <div class="stat">Total Credit Points<strong id="creditTotal">11</strong></div>
+    <div class="stat">Remaining Credits<strong id="creditRemaining">289</strong></div>
+    <div class="stat">Maximum Credit<strong>450</strong></div>
+    <div class="message" id="performanceMessage"></div>
+    <h3>Why Recruitment Credits Matter</h3>
+    <p>
+      Recruitment credits help Afriteck measure and recognise each reseller's
+      contribution to the growth of the company. When the company has staff
+      vacancies or opportunities to recruit new team members, we will review
+      reseller credit performance to help identify potential candidates for
+      employment.
+    </p>
+    <p>
+      Your recruitment performance helps us recognise commitment, consistency
+      and contribution to the company. Higher credit performance may strengthen
+      your consideration for future employment opportunities.
+    </p>
+    <p><strong>Important:</strong> Recruitment credits do not guarantee employment.
+      All appointments depend on company requirements, available vacancies and
+      selection criteria.</p>
+    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+  </div>
+</section>
+
+<!-- BALANCE -->
+<section id="balancePage" class="hidden">
+  <div class="panel">
+    <h2>Check My Balance</h2>
+    <div class="stat">Available Balance<strong id="availableBalance">R0.00</strong></div>
+    <div class="stat">Withdrawn Balance<strong id="withdrawnBalance">-R0.00</strong></div>
+    <p>Your balance information is displayed according to your reseller account records.</p>
+    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+  </div>
+</section>
+
+<!-- STATUS -->
+<section id="statusPage" class="hidden">
+  <div class="panel">
+    <h2>My Reseller Status</h2>
+    <div class="stat">Account Status<strong id="accountStatus"></strong></div>
+    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+  </div>
+</section>
+
+<!-- MY INFORMATION -->
+<section id="informationPage" class="hidden">
+  <div class="panel">
+    <h2>My Information</h2>
+    <h3 id="personalHeading">Personal Information</h3>
+    <div id="personalInformation"></div>
+    <h3>Reseller Account Information</h3>
+    <div id="accountInformation"></div>
+    <h3>Payment Information</h3>
+    <img src="1795699178331.png" alt="Bank Logo" style="width:100px;height:55px;object-fit:contain">
+    <div id="bankInformation"></div>
+    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+  </div>
+</section>
+
+</div>
+
+<footer>Reseller Database</footer>
+
+<script>
+
+/* ==========================================================
+   AFRITECK RESELLER DATABASE
+   ==========================================================
+   INDIVIDUAL RESELLERS: 100 SLOTS
+   CORPORATE RESELLERS: 65 SLOTS
+
+   INDIVIDUAL NUMBERING: AF0260001 - AF0260100
+   CORPORATE NUMBERING:  AF026C0001 - AF026C0065
+
+   NO ID NUMBERS OR PASSPORT NUMBERS.
+   EDIT THE INFORMATION INSIDE EACH SLOT.
+   ========================================================== */
+
+
+/* ==========================================================
+   INDIVIDUAL RESELLER DATABASE
+   100 INDIVIDUAL SLOTS
+   ========================================================== */
+
+const resellerDatabase = [
+
+  /* INDIVIDUAL SLOT 1 */
+  {number:"AF0260001",pin:"1234",name:"Siyabonga",surname:"Mthethwa",gender:"",country:"South Africa",address:"",postalCode:"",phone:"0763567455",whatsapp:"0842180202",email:"syamthethwa173@gmail.com",clients:30,status:"Active",available:654,withdrawn:0,dateJoined:"2026-11-20",accountHolder:"Siyabonga Mthethwa",bankName:"Capitec Bank",bankAccount:"1729444588",branchCode:"470010",accountType:"Savings Account"},
+
+  /* INDIVIDUAL SLOT 2 */
+  {number:"AF0260002",pin:"2004",name:"Hlengi Internet Cafe",surname:"Mbazwana",gender:"",country:"South Africa",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 3 */
+  {number:"AF0260003",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 4 */
+  {number:"AF0260004",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 5 */
+  {number:"AF0260005",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 6 */
+  {number:"AF0260006",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 7 */
+  {number:"AF0260007",pin:"2002",name:"Fezeka",surname:"Thwala",gender:"",country:"South Africa",address:"",postalCode:"",phone:"0798255699",whatsapp:"0798255699",email:"fezeka@gmail.com",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 8 */
+  {number:"AF0260008",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 9 */
+  {number:"AF0260009",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 10 */
+  {number:"AF0260010",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 11 */
+  {number:"AF0260011",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 12 */
+  {number:"AF0260012",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 13 */
+  {number:"AF0260013",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 14 */
+  {number:"AF0260014",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 15 */
+  {number:"AF0260015",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 16 */
+  {number:"AF0260016",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 17 */
+  {number:"AF0260017",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 18 */
+  {number:"AF0260018",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 19 */
+  {number:"AF0260019",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 20 */
+  {number:"AF0260020",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 21 */
+  {number:"AF0260021",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 22 */
+  {number:"AF0260022",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 23 */
+  {number:"AF0260023",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 24 */
+  {number:"AF0260024",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 25 */
+  {number:"AF0260025",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 26 */
+  {number:"AF0260026",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 27 */
+  {number:"AF0260027",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 28 */
+  {number:"AF0260028",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 29 */
+  {number:"AF0260029",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 30 */
+  {number:"AF0260030",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 31 */
+  {number:"AF0260031",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 32 */
+  {number:"AF0260032",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 33 */
+  {number:"AF0260033",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 34 */
+  {number:"AF0260034",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 35 */
+  {number:"AF0260035",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 36 */
+  {number:"AF0260036",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 37 */
+  {number:"AF0260037",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 38 */
+  {number:"AF0260038",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 39 */
+  {number:"AF0260039",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 40 */
+  {number:"AF0260040",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 41 */
+  {number:"AF0260041",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 42 */
+  {number:"AF0260042",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 43 */
+  {number:"AF0260043",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 44 */
+  {number:"AF0260044",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 45 */
+  {number:"AF0260045",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 46 */
+  {number:"AF0260046",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 47 */
+  {number:"AF0260047",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 48 */
+  {number:"AF0260048",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 49 */
+  {number:"AF0260049",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 50 */
+  {number:"AF0260050",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 51 */
+  {number:"AF0260051",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 52 */
+  {number:"AF0260052",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 53 */
+  {number:"AF0260053",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 54 */
+  {number:"AF0260054",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 55 */
+  {number:"AF0260055",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 56 */
+  {number:"AF0260056",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 57 */
+  {number:"AF0260057",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 58 */
+  {number:"AF0260058",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 59 */
+  {number:"AF0260059",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 60 */
+  {number:"AF0260060",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 61 */
+  {number:"AF0260061",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 62 */
+  {number:"AF0260062",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 63 */
+  {number:"AF0260063",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 64 */
+  {number:"AF0260064",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 65 */
+  {number:"AF0260065",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 66 */
+  {number:"AF0260066",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 67 */
+  {number:"AF0260067",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 68 */
+  {number:"AF0260068",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 69 */
+  {number:"AF0260069",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 70 */
+  {number:"AF0260070",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 71 */
+  {number:"AF0260071",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 72 */
+  {number:"AF0260072",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 73 */
+  {number:"AF0260073",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 74 */
+  {number:"AF0260074",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 75 */
+  {number:"AF0260075",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 76 */
+  {number:"AF0260076",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 77 */
+  {number:"AF0260077",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 78 */
+  {number:"AF0260078",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 79 */
+  {number:"AF0260079",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 80 */
+  {number:"AF0260080",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 81 */
+  {number:"AF0260081",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 82 */
+  {number:"AF0260082",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 83 */
+  {number:"AF0260083",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 84 */
+  {number:"AF0260084",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 85 */
+  {number:"AF0260085",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 86 */
+  {number:"AF0260086",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 87 */
+  {number:"AF0260087",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 88 */
+  {number:"AF0260088",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 89 */
+  {number:"AF0260089",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 90 */
+  {number:"AF0260090",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 91 */
+  {number:"AF0260091",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 92 */
+  {number:"AF0260092",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 93 */
+  {number:"AF0260093",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 94 */
+  {number:"AF0260094",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 95 */
+  {number:"AF0260095",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 96 */
+  {number:"AF0260096",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 97 */
+  {number:"AF0260097",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 98 */
+  {number:"AF0260098",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 99 */
+  {number:"AF0260099",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* INDIVIDUAL SLOT 100 */
+  {number:"AF0260100",pin:"0000",name:"",surname:"",gender:"",country:"",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""}
+
+];
+
+
+/* ==========================================================
+   CORPORATE RESELLER DATABASE
+   65 CORPORATE SLOTS
+   ========================================================== */
+
+const corporateDatabase = [
+
+  /* CORPORATE SLOT 1 */
+  {number:"AF026C0001",pin:"2020",companyName:"PEP GENERAL TRADING",tradingName:"PEP STORE",registrationNumber:"0000763",companyType:"Internet cafe",country:"South Africa",province:"KwaZulu Natal",city:"Mbazwana",physicalAddress:"Olakeni",postalAddress:"Mbazwana",postalCode:"3974",businessEmail:"info@peptrading.co.za",businessPhone:"0614225452",website:"www.pep.zo.za",contactName:"Halala",contactPosition:"Manager",contactEmail:"halala@gmail.com",contactPhone:"07124254325",clients:1,status:"Active",available:27.00,withdrawn:0,dateJoined:"26 Nov 2026",accountHolder:"Pep",bankName:"Capitec Bank",bankAccount:"172977366",branchCode:"23627",accountType:"Current Account"},
+
+  /* CORPORATE SLOT 2 */
+  {number:"AF026C0002",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 3 */
+  {number:"AF026C0003",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 4 */
+  {number:"AF026C0004",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 5 */
+  {number:"AF026C0005",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 6 */
+  {number:"AF026C0006",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 7 */
+  {number:"AF026C0007",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 8 */
+  {number:"AF026C0008",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 9 */
+  {number:"AF026C0009",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 10 */
+  {number:"AF026C0010",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 11 */
+  {number:"AF026C0011",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 12 */
+  {number:"AF026C0012",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 13 */
+  {number:"AF026C0013",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 14 */
+  {number:"AF026C0014",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 15 */
+  {number:"AF026C0015",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 16 */
+  {number:"AF026C0016",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 17 */
+  {number:"AF026C0017",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 18 */
+  {number:"AF026C0018",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 19 */
+  {number:"AF026C0019",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 20 */
+  {number:"AF026C0020",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 21 */
+  {number:"AF026C0021",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 22 */
+  {number:"AF026C0022",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 23 */
+  {number:"AF026C0023",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 24 */
+  {number:"AF026C0024",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 25 */
+  {number:"AF026C0025",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 26 */
+  {number:"AF026C0026",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 27 */
+  {number:"AF026C0027",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 28 */
+  {number:"AF026C0028",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 29 */
+  {number:"AF026C0029",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 30 */
+  {number:"AF026C0030",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 31 */
+  {number:"AF026C0031",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 32 */
+  {number:"AF026C0032",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 33 */
+  {number:"AF026C0033",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 34 */
+  {number:"AF026C0034",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 35 */
+  {number:"AF026C0035",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 36 */
+  {number:"AF026C0036",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 37 */
+  {number:"AF026C0037",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 38 */
+  {number:"AF026C0038",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 39 */
+  {number:"AF026C0039",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 40 */
+  {number:"AF026C0040",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 41 */
+  {number:"AF026C0041",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 42 */
+  {number:"AF026C0042",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 43 */
+  {number:"AF026C0043",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 44 */
+  {number:"AF026C0044",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 45 */
+  {number:"AF026C0045",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 46 */
+  {number:"AF026C0046",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 47 */
+  {number:"AF026C0047",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 48 */
+  {number:"AF026C0048",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 49 */
+  {number:"AF026C0049",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 50 */
+  {number:"AF026C0050",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 51 */
+  {number:"AF026C0051",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 52 */
+  {number:"AF026C0052",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 53 */
+  {number:"AF026C0053",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 54 */
+  {number:"AF026C0054",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 55 */
+  {number:"AF026C0055",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 56 */
+  {number:"AF026C0056",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 57 */
+  {number:"AF026C0057",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 58 */
+  {number:"AF026C0058",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 59 */
+  {number:"AF026C0059",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 60 */
+  {number:"AF026C0060",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 61 */
+  {number:"AF026C0061",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 62 */
+  {number:"AF026C0062",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 63 */
+  {number:"AF026C0063",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 64 */
+  {number:"AF026C0064",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
+
+  /* CORPORATE SLOT 65 */
+  {number:"AF026C0065",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""}
+
+];
+
+
+/* ==========================================================
+   WEBSITE FUNCTIONS
+   ========================================================== */
+
+let currentReseller=null;
+
+function showLoading(message,duration,callback){
+  const loading=document.getElementById("loading");
+  document.getElementById("loadingText").textContent=message;
+  loading.classList.remove("hidden");
+
+  setTimeout(()=>{
+    loading.classList.add("hidden");
+    if(callback)callback();
+  },duration);
+}
+
+function login(){
+  const number=document.getElementById("loginNumber").value.trim().toUpperCase();
+  const pin=document.getElementById("loginPin").value.trim();
+
+  let reseller=resellerDatabase.find(r=>r.number===number&&r.pin===pin);
+  let isCorporate=false;
+
+  if(!reseller){
+    reseller=corporateDatabase.find(r=>r.number===number&&r.pin===pin);
+    isCorporate=!!reseller;
+  }
+
+  if(!reseller){
+    document.getElementById("loginMessage").textContent="Wrong Reseller Number or PIN";
+    return;
+  }
+
+  if(isCorporate&&!reseller.companyName){
+    document.getElementById("loginMessage").textContent="Corporate reseller information has not been completed.";
+    return;
+  }
+
+  if(!isCorporate&&!reseller.name){
+    document.getElementById("loginMessage").textContent="Wrong Reseller Number or PIN";
+    return;
+  }
+
+  currentReseller=reseller;
+  currentReseller.resellerType=isCorporate?"Corporate":"Individual";
+
+  showLoading("Verifying Reseller Account...",1200,()=>{
+    loadResellerInformation();
+    openPage("dashboardPage",false);
+  });
+}
+
+function forgotDetails(){
+  alert("To get your Reseller Number and PIN, please contact the Help Desk or Administrator.");
+}
+
+function openPage(pageId,withLoading=true){
+  const displayPage=()=>{
+    document.querySelectorAll(".container > section").forEach(page=>{
+      page.classList.add("hidden");
+    });
+    document.getElementById(pageId).classList.remove("hidden");
+    window.scrollTo(0,0);
+  };
+
+  if(withLoading){
+    showLoading("Loading...",650,displayPage);
+  }else{
+    displayPage();
+  }
+}
+
+
+/* ==========================================================
+   SOUTH AFRICAN MONEY FORMATTING
+   NO THOUSANDS COMMAS
+   DECIMAL POINT FOR CENTS ONLY
+   ========================================================== */
+
+function formatMoney(amount){
+  const value=Number(amount)||0;
+  const absolute=Math.abs(value);
+  const fixed=absolute.toFixed(2);
+  const parts=fixed.split(".");
+  const whole=String(Number(parts[0]));
+  const cents=parts[1];
+
+  return "R"+whole+(cents==="00"?"":"."+cents);
+}
+
+function formatWithdrawn(amount){
+  return "-"+formatMoney(Math.abs(Number(amount)||0));
+}
+
+
+/* ==========================================================
+   LOAD RESELLER INFORMATION
+   ========================================================== */
+
+function loadResellerInformation(){
+  const r=currentReseller;
+  if(!r)return;
+
+  const isCorporate=r.resellerType==="Corporate";
+
+  document.getElementById("welcomeName").textContent=
+    isCorporate?r.companyName:r.name+" "+r.surname;
+
+  document.getElementById("welcomeNumber").textContent=r.number;
+
+  document.getElementById("resellerTypeLabel").textContent=
+    isCorporate?"Corporate Reseller Account Dashboard":"Individual Reseller Account Dashboard";
+
+  document.getElementById("clientCount").textContent=r.clients+" Clients";
+
+  const points=Math.min(450,11+(Number(r.clients)||0)*11);
+  const remaining=450-points;
+  const percentage=(points/450)*100;
+
+  document.getElementById("creditPoints").textContent=points;
+  document.getElementById("creditClients").textContent=r.clients;
+  document.getElementById("creditTotal").textContent=points;
+  document.getElementById("creditRemaining").textContent=remaining;
+  document.getElementById("creditProgress").style.width=percentage+"%";
+
+  let performance="Getting Started! Your reseller journey has begun. Recruit your first client to increase your recruitment credits.";
+
+  if(points>=250){
+    performance="Outstanding Performance! You are very close to reaching the maximum recruitment credit. Keep up the excellent work!";
+  }else if(points>=150){
+    performance="Excellent Performance! You are making strong progress. Continue growing your network.";
+  }else if(points>=75){
+    performance="Very Good Performance! Your efforts are showing positive results. Keep moving forward.";
+  }
+
+  document.getElementById("performanceMessage").textContent=performance;
+
+  document.getElementById("availableBalance").textContent=formatMoney(r.available);
+  document.getElementById("withdrawnBalance").textContent=formatWithdrawn(r.withdrawn);
+
+  const statusElement=document.getElementById("accountStatus");
+  statusElement.textContent=r.status;
+  statusElement.className=
+    String(r.status).toLowerCase()==="active"?"status-active":"status-inactive";
+
+
+  /* INDIVIDUAL PERSONAL INFORMATION */
+
+  if(!isCorporate){
+
+    document.getElementById("personalHeading").textContent="Personal Information";
+
+    document.getElementById("personalInformation").innerHTML=
+      infoRow("Name",r.name)+
+      infoRow("Surname",r.surname)+
+      infoRow("Gender",r.gender)+
+      infoRow("Country",r.country)+
+      infoRow("Full Residential Address",r.address)+
+      infoRow("Postal Code",r.postalCode)+
+      infoRow("Phone Number",r.phone)+
+      infoRow("WhatsApp Number",r.whatsapp)+
+      infoRow("Email Address",r.email);
+
+  }else{
+
+    /* CORPORATE COMPANY INFORMATION */
+
+    document.getElementById("personalHeading").textContent="Company Information";
+
+    document.getElementById("personalInformation").innerHTML=
+      infoRow("Company Name",r.companyName)+
+      infoRow("Trading Name",r.tradingName)+
+      infoRow("Company Registration Number",r.registrationNumber)+
+      infoRow("Company Type",r.companyType)+
+      infoRow("Country",r.country)+
+      infoRow("Province",r.province)+
+      infoRow("City",r.city)+
+      infoRow("Physical Address",r.physicalAddress)+
+      infoRow("Postal Address",r.postalAddress)+
+      infoRow("Postal Code",r.postalCode)+
+      infoRow("Business Email",r.businessEmail)+
+      infoRow("Business Phone",r.businessPhone)+
+      infoRow("Company Website",r.website)+
+      infoRow("Contact Person",r.contactName)+
+      infoRow("Contact Person Position",r.contactPosition)+
+      infoRow("Contact Person Email",r.contactEmail)+
+      infoRow("Contact Person Phone",r.contactPhone);
+  }
+
+
+  /* RESELLER ACCOUNT INFORMATION */
+
+  document.getElementById("accountInformation").innerHTML=
+    infoRow("Reseller Type",r.resellerType)+
+    infoRow("Reseller Number",r.number)+
+    infoRow("Date Joined",r.dateJoined)+
+    infoRow("Account Status",r.status);
+
+
+  /* BANKING INFORMATION */
+
+  document.getElementById("bankInformation").innerHTML=
+    infoRow("Account Holder",r.accountHolder)+
+    infoRow("Bank Name",r.bankName)+
+    infoRow("Account Number",r.bankAccount)+
+    infoRow("Branch Code",r.branchCode)+
+    infoRow("Account Type",r.accountType);
+}
+
+
+function infoRow(label,value){
+  return `<div class="info-row">
+    <span>${escapeHTML(label)}</span>
+    <strong>${escapeHTML(value||"Not provided")}</strong>
+  </div>`;
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,character=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[character]));
+}
+
+function logout(){
+  currentReseller=null;
+  document.getElementById("loginNumber").value="";
+  document.getElementById("loginPin").value="";
+  document.getElementById("loginMessage").textContent="";
+  openPage("loginPage");
+}
+
+
+/* ==========================================================
+   OPENING SEQUENCE
+   ========================================================== */
+
+window.addEventListener("load",()=>{
+  const steps=[
+    ["Connecting...",3000],
+    ["Checking Connection...",3000],
+    ["Verifying...",2000],
+    ["Loading...",2000]
+  ];
+
+  let total=0;
+
+  steps.forEach(([message,duration])=>{
+    setTimeout(()=>{
+      document.getElementById("loadingText").textContent=message;
+    },total);
+    total+=duration;
+  });
+
+  setTimeout(()=>{
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("loginPage").classList.remove("hidden");
+  },total);
+});
+
+</script>
+</body>
+</html>
