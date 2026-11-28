@@ -3,56 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reseller Database.SA</title>
+<title>Reseller Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --green:#123f2b;
-  --green2:#1d6544;
-  --gold:#c99b22;
-  --background:#f4f6f3;
-  --white:#fff;
-  --black:#171717;
+ :root{
+ --burgundy:#046746; --orange:#018532; --white:#FFFFFF;
+ --charcoal:#17252E; --light-grey:#F2F8F4; --grey:#68736D; --border:#E4ECE7;
+ --green:#046746; --green2:#034F37; --gold:#018532;
+ --background:#F2F8F4; --black:#17252E;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:Courier New,sans-serif;
+  margin:0;font-family:'Roboto','Arial',sans-serif;
   background:var(--background);color:var(--black);
 }
-header{
-  background:white;border-bottom:3px solid var(--gold);
-  padding:12px 17px;display:flex;align-items:center;gap:12px;
-}
-header img{width:50px;height:50px;object-fit:contain}
-header h2{color:var(--green);font-size:19px;margin:0}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:3px solid var(--orange);padding:12px 17px;display:flex;align-items:center;gap:12px;min-height:72px;box-shadow:0 3px 14px rgba(0,0,0,.07)}
+body{padding-top:76px;}
+header img{width:48px;height:48px;object-fit:contain}
+header h2{color:var(--burgundy);font-size:19px;margin:0;font-weight:800;letter-spacing:.3px}
 .container{max-width:850px;margin:22px auto;padding:14px}
 .panel{
   background:white;padding:20px;border-radius:12px;
   box-shadow:0 3px 15px #00000010;margin-bottom:17px;
 }
-h2,h3{color:var(--green)}
+h2,h3{color:var(--burgundy)}
 input,button{width:100%;padding:13px;margin:7px 0;border-radius:7px;font-size:15px}
 input{border:1px solid #ccc}
-button{background:var(--green);color:white;border:0;cursor:pointer;font-weight:bold}
+button{background:var(--burgundy);color:white;border:0;cursor:pointer;font-weight:bold;transition:.2s}
 button:hover{background:var(--green2)}
-.gold-button{background:var(--gold);color:#171717}
+.gold-button{background:var(--orange);color:#fff}
 .secondary{background:#555}
 .hidden{display:none!important}
 .menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
 .menu button{min-height:75px}
 .stat{
   background:#f4f6f3;padding:14px;border-radius:9px;
-  margin:9px 0;border-left:4px solid var(--gold);
+  margin:9px 0;border-left:4px solid var(--orange);
 }
-.stat strong{display:block;color:var(--green);font-size:22px;margin-top:7px}
+.stat strong{display:block;color:var(--burgundy);font-size:22px;margin-top:7px}
 .status-active{color:green;font-weight:bold}
 .status-inactive{color:#c62828;font-weight:bold}
 .progress{height:13px;background:#ddd;border-radius:20px;overflow:hidden;margin:12px 0}
-.progress-fill{height:100%;background:var(--green2);width:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--burgundy),var(--orange));width:0}
 .circle{
-  width:155px;height:155px;border-radius:50%;border:10px solid var(--gold);
+  width:155px;height:155px;border-radius:50%;border:10px solid var(--burgundy);
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  margin:18px auto;color:var(--green);
+  margin:18px auto;color:var(--burgundy);
 }
 .circle strong{font-size:29px}
 .info-row{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
@@ -64,18 +63,141 @@ button:hover{background:var(--green2)}
 }
 .spinner{
   width:55px;height:55px;border:6px solid #e5e5e5;
-  border-top:6px solid var(--green);border-right:6px solid var(--gold);
+  border-top:6px solid var(--burgundy);border-right:6px solid var(--orange);
   border-radius:50%;animation:spin .8s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-#loading p{color:var(--green);font-weight:bold}
+#loading p{color:var(--burgundy);font-weight:bold}
 .message{background:#fff6dc;padding:13px;border-radius:8px;line-height:1.5}
 footer{text-align:center;color:#777;padding:20px;font-size:12px}
 @media(max-width:480px){
   .menu{grid-template-columns:1fr}
   .container{padding:10px}
 }
+
+/* AFRSPEc-INSPIRED PRESENTATION UPDATES */
+.panel{border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.055)}
+.container{max-width:1100px;margin:22px auto;padding:14px}
+.menu button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:76px;border-radius:9px}
+.menu button i,.menu button svg{width:19px;height:19px;flex-shrink:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.info-row{border-bottom:1px solid var(--border)}
+.status-active{color:#23834e;font-weight:bold}
+.status-inactive{color:var(--orange);font-weight:bold}
+@media(max-width:480px){header{min-height:66px;padding:10px 13px}body{padding-top:70px}.container{padding:10px}.menu{grid-template-columns:1fr}}
+
+
+/* SCREENSHOT-INSPIRED GREEN BANKING THEME — VISUAL STYLES ONLY */
+
+html,body,button,input,select,textarea{
+  font-family:'Roboto',Arial,sans-serif !important;
+}
+body{
+  background:#F2F8F4 !important;
+  color:#17252E !important;
+  font-family:'Roboto',Arial,sans-serif !important;
+  -webkit-font-smoothing:antialiased;
+}
+header{
+  background:#FFFFFF !important;
+  border-bottom:1px solid #E4ECE7 !important;
+  box-shadow:0 4px 18px rgba(23,37,46,.07) !important;
+}
+header h2{color:#17252E !important;font-weight:700;letter-spacing:0 !important}
+.panel{
+  background:#FFFFFF !important;
+  border:1px solid #E7EEE9 !important;
+  border-radius:14px !important;
+  box-shadow:0 5px 22px rgba(23,37,46,.055) !important;
+}
+h2,h3{color:#17252E !important;font-weight:700;letter-spacing:-.25px}
+p{color:#59645E;line-height:1.6}
+button{
+  background:#046746 !important;
+  color:#FFFFFF !important;
+  border:0 !important;
+  border-radius:9px !important;
+  font-family:'Roboto',Arial,sans-serif !important;
+  font-weight:600 !important;
+  box-shadow:none;
+}
+button:hover{background:#034F37 !important}
+button.gold-button,.gold-button{background:#018532 !important;color:#FFFFFF !important}
+button.secondary,.secondary{background:#17252E !important;color:#FFFFFF !important}
+input{
+  background:#FFFFFF;
+  color:#17252E;
+  border:1px solid #D7E2DA !important;
+  border-radius:8px !important;
+  font-family:'Roboto',Arial,sans-serif !important;
+}
+input::placeholder{color:#87928B}
+input:focus{border-color:#046746 !important;outline:2px solid rgba(4,103,70,.12)}
+.menu button{
+  background:#FFFFFF !important;
+  color:#17252E !important;
+  border:1px solid #E4ECE7 !important;
+  box-shadow:0 3px 14px rgba(23,37,46,.045) !important;
+  justify-content:flex-start !important;
+  padding:18px !important;
+  text-align:left;
+}
+.menu button:hover{background:#F2F8F4 !important;border-color:#BBD7C6 !important}
+.menu button i,.menu button svg,button i,button svg{
+  color:#018532;
+  stroke:currentColor;
+}
+.stat{
+  background:#F2F8F4 !important;
+  border-left:4px solid #018532 !important;
+  border-radius:10px !important;
+}
+.stat strong{color:#046746 !important}
+.circle{
+  border-color:#046746 !important;
+  color:#046746 !important;
+  background:#FFFFFF;
+}
+.progress{background:#DDE9E1 !important}
+.progress-fill{background:linear-gradient(90deg,#046746,#018532) !important}
+.message{background:#EAF5ED !important;color:#234B36;border:1px solid #D6E9DC}
+.info-row{border-bottom-color:#E4ECE7 !important}
+.info-row span{color:#68736D !important}
+.info-row strong{color:#17252E !important}
+.status-active{color:#018532 !important}
+.status-inactive{color:#B54747 !important}
+#loading{background:#FFFFFF !important}
+.spinner{border-color:#DDE9E1;border-top-color:#046746;border-right-color:#018532}
+#loading p{color:#046746 !important}
+footer{color:#68736D !important}
+button:focus-visible,input:focus-visible{outline:2px solid #018532 !important;outline-offset:3px}
+@media(max-width:480px){
+  .panel{border-radius:12px !important}
+  .menu button{padding:17px !important}
+}
+.notice-overlay{
+  position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;
+  padding:22px;background:rgba(16,35,27,.58);backdrop-filter:blur(3px);
+}
+.notice-overlay.hidden{display:none !important}
+.notice-card{
+  width:min(100%,390px);padding:28px 24px 23px;text-align:center;background:#fff;
+  border:1px solid #DCEAE0;border-radius:18px;box-shadow:0 18px 55px rgba(0,0,0,.22);
+  animation:noticeIn .2s ease-out;
+}
+.notice-icon{
+  width:58px;height:58px;margin:0 auto 13px;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;background:#EAF5ED;color:#018532;
+}
+.notice-icon svg{width:29px;height:29px;stroke:currentColor}
+.notice-card h2{margin:5px 0 10px;color:#17252E !important;font-size:22px;font-weight:700}
+.notice-card p{margin:0 0 22px;color:#59645E;font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.notice-card .notice-ok{width:100%;margin:0;padding:14px;background:#046746 !important;color:#fff !important;
+  border-radius:9px;font-size:16px;font-weight:700}
+.notice-card .notice-ok:hover{background:#034F37 !important}
+@keyframes noticeIn{from{opacity:0;transform:translateY(9px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 </style>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -85,9 +207,19 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
   <p id="loadingText">Connecting...</p>
 </div>
 
+<!-- PROFESSIONAL VALIDATION / INFORMATION MESSAGE -->
+<div id="noticeOverlay" class="notice-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="notice-card">
+    <div class="notice-icon"><i data-lucide="info"></i></div>
+    <h2 id="noticeTitle">Please Note</h2>
+    <p id="noticeText"></p>
+    <button type="button" class="notice-ok" onclick="closeNotice()">OK</button>
+  </div>
+</div>
+
 <header>
-  <img src="1795185581412.png" alt="Company Logo">
-  <h2>Reseller Database.SA</h2>
+  <img src=".png" alt="Company Logo">
+  <h2><i data-lucide="layout-dashboard" style="width:19px;height:19px;vertical-align:-4px;margin-right:7px"></i> AFRITECK RESELLER DATABASE</h2>
 </header>
 
 <div class="container">
@@ -98,7 +230,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
   <p>Please enter your reseller number and PIN.</p>
   <input id="loginNumber" placeholder="Reseller Number">
   <input id="loginPin" type="password" inputmode="numeric" maxlength="4" placeholder="4-digit PIN">
-  <button onclick="login()">LOGIN</button>
+  <button onclick="login()"><i data-lucide="log-in"></i> LOGIN</button>
   <button class="gold-button" onclick="forgotDetails()">Forgot Reseller Number or PIN?</button>
   <p id="loginMessage" style="color:#c62828;font-weight:bold"></p>
 </section>
@@ -113,13 +245,13 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
   <div class="panel">
     <h3>My Account Menu</h3>
     <div class="menu">
-      <button onclick="openPage('clientsPage')">Total Number of Clients</button>
-      <button onclick="openPage('creditsPage')">Credit Performance</button>
-      <button onclick="openPage('balancePage')">Check My Balance</button>
-      <button onclick="openPage('statusPage')">My Status</button>
-      <button onclick="openPage('informationPage')">My Information</button>
+      <button onclick="openPage('clientsPage')"><i data-lucide="users"></i> Total Number of Clients</button>
+      <button onclick="openPage('creditsPage')"><i data-lucide="chart-no-axes-combined"></i> Credit Performance</button>
+      <button onclick="openPage('balancePage')"><i data-lucide="wallet"></i> Check My Balance</button>
+      <button onclick="openPage('statusPage')"><i data-lucide="badge-check"></i> My Status</button>
+      <button onclick="openPage('informationPage')"><i data-lucide="user-round"></i> My Information</button>
     </div>
-    <button class="secondary" onclick="logout()">LOG OUT</button>
+    <button class="secondary" onclick="logout()"><i data-lucide="log-out"></i> LOG OUT</button>
   </div>
 </section>
 
@@ -129,7 +261,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
     <h2>Total Number of Clients</h2>
     <div class="stat">Total clients recruited<strong id="clientCount">0 Clients</strong></div>
     <p>This section displays the total number of clients recruited under your reseller account.</p>
-    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+    <button onclick="openPage('dashboardPage')"><i data-lucide="arrow-left"></i> BACK TO DASHBOARD</button>
   </div>
 </section>
 
@@ -138,8 +270,9 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
   <div class="panel">
     <h2>Credit Performance</h2>
     <p>Your recruitment credit performance is displayed below.</p>
-    <div class="circle"><strong id="creditPoints">11</strong><span>Out of 450</span></div>
+    <div class="circle" id="creditCircle"><strong id="creditPoints">11</strong><span>Out of 450</span></div>
     <div class="progress"><div id="creditProgress" class="progress-fill"></div></div>
+    <p style="text-align:center;font-weight:bold;color:var(--burgundy)"><span id="creditPercentage">2.44%</span> Credit Performance</p>
     <div class="stat">Clients Recruited<strong id="creditClients">0</strong></div>
     <div class="stat">Total Credit Points<strong id="creditTotal">11</strong></div>
     <div class="stat">Remaining Credits<strong id="creditRemaining">289</strong></div>
@@ -161,7 +294,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
     <p><strong>Important:</strong> Recruitment credits do not guarantee employment.
       All appointments depend on company requirements, available vacancies and
       selection criteria.</p>
-    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+    <button onclick="openPage('dashboardPage')"><i data-lucide="arrow-left"></i> BACK TO DASHBOARD</button>
   </div>
 </section>
 
@@ -172,7 +305,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
     <div class="stat">Available Balance<strong id="availableBalance">R0.00</strong></div>
     <div class="stat">Withdrawn Balance<strong id="withdrawnBalance">-R0.00</strong></div>
     <p>Your balance information is displayed according to your reseller account records.</p>
-    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+    <button onclick="openPage('dashboardPage')"><i data-lucide="arrow-left"></i> BACK TO DASHBOARD</button>
   </div>
 </section>
 
@@ -181,7 +314,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
   <div class="panel">
     <h2>My Reseller Status</h2>
     <div class="stat">Account Status<strong id="accountStatus"></strong></div>
-    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+    <button onclick="openPage('dashboardPage')"><i data-lucide="arrow-left"></i> BACK TO DASHBOARD</button>
   </div>
 </section>
 
@@ -194,9 +327,9 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
     <h3>Reseller Account Information</h3>
     <div id="accountInformation"></div>
     <h3>Payment Information</h3>
-    <img src="1795699178331.png" alt="Bank Logo" style="width:100px;height:55px;object-fit:contain">
+    <img src="bank-logo.png" alt="Bank Logo" style="width:100px;height:55px;object-fit:contain">
     <div id="bankInformation"></div>
-    <button onclick="openPage('dashboardPage')">BACK TO DASHBOARD</button>
+    <button onclick="openPage('dashboardPage')"><i data-lucide="arrow-left"></i> BACK TO DASHBOARD</button>
   </div>
 </section>
 
@@ -228,7 +361,7 @@ footer{text-align:center;color:#777;padding:20px;font-size:12px}
 const resellerDatabase = [
 
   /* INDIVIDUAL SLOT 1 */
-  {number:"AF0260001",pin:"1234",name:"Siyabonga",surname:"Mthethwa",gender:"",country:"South Africa",address:"",postalCode:"",phone:"0763567455",whatsapp:"0842180202",email:"syamthethwa173@gmail.com",clients:5,status:"Active",available:100.00,withdrawn:0,dateJoined:"2026-11-20",accountHolder:"Siyabonga Mthethwa",bankName:"Capitec Bank",bankAccount:"1729444588",branchCode:"470010",accountType:"Savings Account"},
+  {number:"AF0260001",pin:"1234",name:"Siyabonga",surname:"Mthethwa",gender:"",country:"South Africa",address:"",postalCode:"",phone:"0763567455",whatsapp:"0842180202",email:"syamthethwa173@gmail.com",clients:30,status:"Active",available:654,withdrawn:0,dateJoined:"2026-11-20",accountHolder:"Siyabonga Mthethwa",bankName:"Capitec Bank",bankAccount:"1729444588",branchCode:"470010",accountType:"Savings Account"},
 
   /* INDIVIDUAL SLOT 2 */
   {number:"AF0260002",pin:"2004",name:"Hlengi Internet Cafe",surname:"Mbazwana",gender:"",country:"South Africa",address:"",postalCode:"",phone:"",whatsapp:"",email:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
@@ -538,7 +671,7 @@ const resellerDatabase = [
 const corporateDatabase = [
 
   /* CORPORATE SLOT 1 */
-  {number:"AF026C0001",pin:"2020",companyName:"PEP GENERAL TRADING",tradingName:"PEP STORE",registrationNumber:"0000763",companyType:"Internet cafe",country:"South Africa",province:"KwaZulu Natal",city:"Mbazwana",physicalAddress:"Olakeni",postalAddress:"Mbazwana",postalCode:"3974",businessEmail:"info@peptrading.co.za",businessPhone:"0614225452",website:"www.pep.zo.za",contactName:"Halala",contactPosition:"Manager",contactEmail:"halala@gmail.com",contactPhone:"07124254325",clients:1,status:"Active",available:27.00,withdrawn:0,dateJoined:"26 Nov 2026",accountHolder:"Pep",bankName:"Capitec Bank",bankAccount:"172977366",branchCode:"23627",accountType:"Current Account"},
+  {number:"AF026C0001",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
 
   /* CORPORATE SLOT 2 */
   {number:"AF026C0002",pin:"0000",companyName:"",tradingName:"",registrationNumber:"",companyType:"",country:"South Africa",province:"",city:"",physicalAddress:"",postalAddress:"",postalCode:"",businessEmail:"",businessPhone:"",website:"",contactName:"",contactPosition:"",contactEmail:"",contactPhone:"",clients:0,status:"Active",available:0,withdrawn:0,dateJoined:"",accountHolder:"",bankName:"",bankAccount:"",branchCode:"",accountType:""},
@@ -752,6 +885,18 @@ function showLoading(message,duration,callback){
   },duration);
 }
 
+function showNotice(message,title="Please Note"){
+  document.getElementById("noticeTitle").textContent=title;
+  document.getElementById("noticeText").textContent=message;
+  const overlay=document.getElementById("noticeOverlay");
+  overlay.classList.remove("hidden");
+  if(window.lucide) lucide.createIcons();
+}
+
+function closeNotice(){
+  document.getElementById("noticeOverlay").classList.add("hidden");
+}
+
 function login(){
   const number=document.getElementById("loginNumber").value.trim().toUpperCase();
   const pin=document.getElementById("loginPin").value.trim();
@@ -765,17 +910,17 @@ function login(){
   }
 
   if(!reseller){
-    document.getElementById("loginMessage").textContent="Wrong Reseller Number or PIN";
+    showNotice("The Reseller Number or PIN you entered is incorrect. Please check your details and try again.","Login Details Incorrect");
     return;
   }
 
   if(isCorporate&&!reseller.companyName){
-    document.getElementById("loginMessage").textContent="Corporate reseller information has not been completed.";
+    showNotice("Your corporate reseller information has not been completed. Please contact the Afriteck Help Desk for assistance.","Account Information Incomplete");
     return;
   }
 
   if(!isCorporate&&!reseller.name){
-    document.getElementById("loginMessage").textContent="Wrong Reseller Number or PIN";
+    showNotice("The Reseller Number or PIN you entered is incorrect. Please check your details and try again.","Login Details Incorrect");
     return;
   }
 
@@ -789,7 +934,7 @@ function login(){
 }
 
 function forgotDetails(){
-  alert("To get your Reseller Number and PIN, please contact the Help Desk or Administrator.");
+  showNotice("To get your Reseller Number and PIN, please contact the Afriteck Help Desk or Administrator for assistance.","Need Your Login Details?");
 }
 
 function openPage(pageId,withLoading=true){
@@ -817,13 +962,12 @@ function openPage(pageId,withLoading=true){
 
 function formatMoney(amount){
   const value=Number(amount)||0;
-  const absolute=Math.abs(value);
-  const fixed=absolute.toFixed(2);
+  const fixed=Math.abs(value).toFixed(2);
   const parts=fixed.split(".");
-  const whole=String(Number(parts[0]));
+  const whole=String(Number(parts[0])).replace(/\B(?=(\d{3})+(?!\d))/g," ");
   const cents=parts[1];
 
-  return "R"+whole+(cents==="00"?"":"."+cents);
+  return "R"+whole+"."+cents;
 }
 
 function formatWithdrawn(amount){
@@ -860,6 +1004,16 @@ function loadResellerInformation(){
   document.getElementById("creditTotal").textContent=points;
   document.getElementById("creditRemaining").textContent=remaining;
   document.getElementById("creditProgress").style.width=percentage+"%";
+
+ if(document.getElementById("creditPercentage")){
+  document.getElementById("creditPercentage").textContent=percentage.toFixed(2)+"%";
+ }
+ if(document.getElementById("creditCircle")){
+  const angle=percentage*3.6;
+  document.getElementById("creditCircle").style.borderColor="var(--burgundy)";
+  document.getElementById("creditCircle").style.borderTopColor="var(--orange)";
+  document.getElementById("creditCircle").style.borderRightColor=angle>=180?"var(--orange)":"var(--burgundy)";
+ }
 
   let performance="Getting Started! Your reseller journey has begun. Recruit your first client to increase your recruitment credits.";
 
@@ -994,6 +1148,7 @@ window.addEventListener("load",()=>{
   });
 
   setTimeout(()=>{
+    if(window.lucide) lucide.createIcons();
     document.getElementById("loading").classList.add("hidden");
     document.getElementById("loginPage").classList.remove("hidden");
   },total);
